@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.witty.mapper.RoleTagsMapper">
+    <sql id="roleTagsColumn">
+        id, name, alias, create_time, update_time
+    </sql>
+    <resultMap id="roleTagsResultMap" type="com.witty.entity.RoleTags">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="alias" column="alias" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <!--  新增角色标签  -->
+    <insert id="create" parameterType="RoleTags">
+        INSERT INTO
+            role_tags (<include refid="roleTagsColumn" />)
+        values (null, #{name}, #{alias}, now(), now())
+    </insert>
+
+    <!--  修改角色标签  -->
+    <update id="update" parameterType="RoleTags">
+        UPDATE role_tags
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="alias != null and alias != ''">alias = #{alias},</if>
+            update_time = now()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--  根据标签ID查询角色标签  -->
+    <select id="queryById" resultMap="roleTagsResultMap">
+        SELECT <include refid="roleTagsColumn" /> from role_tags WHERE id = #{tagId}
+    </select>
+
+    <!--  分页查询角色标签  -->
+    <select id="queryList" resultMap="roleTagsResultMap">
+        SELECT <include refid="roleTagsColumn" /> from role_tags
+        <where>
+            <if test="name != null and name !=''">
+                and name like concat("%",#{name},"%")
+            </if>
+            <if test="alias != null and alias !=''">
+                and alias like concat("%",#{alias},"%")
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <!--  查询所有角色标签  -->
+    <select id="findAll" resultMap="roleTagsResultMap">
+        SELECT <include refid="roleTagsColumn" /> from role_tags
+    </select>
+
+    <!--  根据标签ID删除角色标签  -->
+    <delete id="remove" parameterType="integer">
+        DELETE FROM role_tags WHERE id = #{tagId}
+    </delete>
+
+    <!--  批量删除角色标签  -->
+    <delete id="removes" parameterType="list">
+        DELETE FROM role_tags WHERE id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

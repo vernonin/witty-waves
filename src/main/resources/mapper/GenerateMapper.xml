@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.witty.mapper.GenerateMapper">
+
+    <sql id="generateColumn">
+        id, text, duration, audio_src, user_id, create_by, created_time
+    </sql>
+
+    <!-- 新增 -->
+    <insert id="create" parameterType="Generate">
+        insert into (<include refid="generateColumn" />)
+        values (null, #{text}, #{duration}, #{audioSrc}, #{userId}, #{createBy}, #{createTime})
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="remove" parameterType="integer">
+        delete from generate where id = #{id}
+    </delete>
+
+    <!-- 分页查询历史配音 -->
+    <select id="queryList" resultType="com.witty.entity.Generate">
+        select <include refid="generateColumn" /> from generate
+        <where>
+            <if test="String != null and String !=''">
+                and text like concat("%",#{text},"%")
+            </if>
+            <if test="userId != null and userId !=''">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+</mapper>
