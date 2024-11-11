@@ -15,8 +15,16 @@ public class HttpResponses<T> {
         this.data = data;
     }
 
+    public static <T> HttpResponses<T> ok(String message, T data) {
+        return new HttpResponses<T>(200, message, data);
+    }
+
+    public static HttpResponses ok(String message) {
+        return new HttpResponses<>(200, message, null);
+    }
+
     public static <T> HttpResponses<T> ok(T data) {
-        return new HttpResponses<T>(200, "OK", data);
+        return new HttpResponses<T>(200, "ok", data);
     }
 
     public static HttpResponses<Object> error(String message) {
