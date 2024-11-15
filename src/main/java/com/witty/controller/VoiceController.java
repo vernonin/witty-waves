@@ -20,7 +20,7 @@ public class VoiceController {
     @GetMapping("/self")
     public String getVoiceListBySelf() {
         String result = HttpRequest.get("https://v1.reecho.cn/api/tts/voice")
-                                .header("Authorization", "Bearer sk-78cb6c09907b6156e2d68acc90b26d6c")
+                                .header("Authorization", "Bearer xxxxxxx")
                                 .execute().body();
 
         System.out.println(result);
