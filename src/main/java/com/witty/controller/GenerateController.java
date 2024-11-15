@@ -10,11 +10,15 @@ import com.witty.entity.SoundDto;
 import com.witty.entity.dto.GenerateDto;
 import com.witty.entity.dto.PageQueryDto;
 import com.witty.service.GenerateService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.val;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * 声音生成
  */
+@Api(value = "声音", tags = "声音")
 @RestController
 @RequestMapping("/generate")
 public class GenerateController {
@@ -29,6 +33,7 @@ public class GenerateController {
      * @param soundDto
      * @return
      */
+    @ApiOperation("生成声音")
     @PostMapping("/sound")
     public HttpResponses<Generate> getSound(@RequestBody SoundDto soundDto) {
         Generate generate =  generateService.create(soundDto);
@@ -36,16 +41,19 @@ public class GenerateController {
         return HttpResponses.ok(generate);
     };
 
-    @GetMapping("/test")
-    public HttpResponses getTest() {
-      return HttpResponses.error("报错了");
-    };
-
+    /**
+     * 历史生产声音
+     * @param text 文本
+     * @return PageResult
+     */
+    @ApiOperation("历史生产声音")
     @GetMapping("/self")
-    public HttpResponses<PageResult> queryListBySelf(GenerateDto generateDto) {
+    public HttpResponses<PageResult> queryListBySelf(String text) {
         Integer userId = 1;
+        GenerateDto generateDto = new GenerateDto();
 
         generateDto.setUserId(userId);
+        generateDto.setText(text);
         PageResult result = generateService.queryList(generateDto);
         return HttpResponses.ok(result);
     };
@@ -55,6 +63,7 @@ public class GenerateController {
      * @param id
      * @return
      */
+    @ApiOperation("根据id删除声音")
     @DeleteMapping("/{id}")
     public HttpResponses remove(@PathVariable Integer id) {
         generateService.remove(id);

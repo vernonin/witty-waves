@@ -21,3 +21,11 @@ logging:
   level:
     com:
       witty: debug
+
+
+app:
+  name: Witty Waves
+  reecho:
+    token: xxxx
+    generate-url: https://www.xxx.cn
+

@@ -10,7 +10,7 @@
 
     <!-- 新增 -->
     <insert id="create" parameterType="Generate">
-        insert into (<include refid="generateColumn" />)
+        insert into generate (<include refid="generateColumn" />)
         values (null, #{text}, #{duration}, #{audioSrc}, #{userId}, #{createBy}, #{createTime})
     </insert>
 
