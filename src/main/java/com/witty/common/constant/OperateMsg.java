@@ -13,4 +13,8 @@ public class OperateMsg {
     public static final String REMOVE_FAIL = "删除失败！";
     public static final String QUERY_SUCCESS = "查询失败！";
     public static final String QUERY_FAIL = "查询失败！";
+    public static final String REGISTER_SUCCESS = "注册成功！";
+
+    public static final String UNAUTHORIZED = "未授权认证！";
+    public static final String PASSWORD_ERROR = "密码错误！";
 }

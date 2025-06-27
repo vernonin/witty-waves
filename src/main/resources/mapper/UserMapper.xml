@@ -50,6 +50,11 @@
         SELECT <include refid="userColumn" /> FROM user where id = #{id}
     </select>
 
+    <!--  根据用户名查询用户  -->
+    <select id="queryByUsername" resultType="com.witty.entity.User">
+        SELECT <include refid="userColumn" /> FROM user where username = #{username}
+    </select>
+
     <!--  分页查询用户  -->
     <select id="queryList" resultMap="userResultMap">
         SELECT <include refid="userColumn" /> FROM user
@@ -77,6 +82,10 @@
             </if>
         </where>
         ORDER BY create_time desc
+    </select>
+
+    <select id="checkUsernameUnique" resultMap="userResultMap">
+        SELECT * FROM user where username = #{username} limit 1
     </select>
 
     <!--  根据用户id删除用户  -->

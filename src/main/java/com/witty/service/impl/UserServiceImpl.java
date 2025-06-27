@@ -1,5 +1,6 @@
 package com.witty.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.witty.common.PageResult;
@@ -8,6 +9,7 @@ import com.witty.entity.dto.UserDto;
 import com.witty.execption.BusinessException;
 import com.witty.mapper.UserMapper;
 import com.witty.service.UserService;
+import com.witty.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,11 +25,25 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 新增用户
-     * @param user
+     * @param user user
      */
     public void create(User user) {
         // 默认金额：500
         user.setCoins(user.getCoins() != null ? user.getCoins() : new BigDecimal("500"));
+        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+
+        userMapper.create(user);
+    }
+
+    /**
+     * 用户注册
+     * @param user
+     */
+    public void register(User user) {
+        user.setCoins(new BigDecimal("10"));
+        user.setStatus(0);
+        user.setIsVip(0);
+        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
 
         userMapper.create(user);
     }
@@ -90,5 +106,16 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("包含管理员账号，不可删除！");
         }
         userMapper.removes(ids);
+    }
+
+    /**
+     * 校验用户名称是否唯一
+     * @param user
+     * @return
+     */
+    public boolean checkUsernameUnique(User user) {
+        User userInfo = userMapper.checkUsernameUnique(user);
+
+        return userInfo == null;
     }
 }

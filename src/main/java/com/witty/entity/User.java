@@ -4,47 +4,53 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Set;
 
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class User {
-    Integer id;
+    private Integer id;
 
     /** 用户名 */
-    String username;
+    private String username;
 
     /** 姓名 */
-    String name;
+    private String name;
 
     /** 密码 */
-    String password;
+    private String password;
 
     /** 邮箱 */
-    String email;
+    private String email;
 
     /** 手机号 */
-    String phone;
+    private String phone;
 
     /** 性别 */
-    Integer gender;
+    private Integer gender;
 
     /** 头像 */
-    String avatar;
+    private String avatar;
 
     /** 状态 */
-    Integer status;
+    private Integer status;
 
     /** 是否VIP */
-    Integer isVip;
+    private Integer isVip;
 
     /** 金额 */
-    BigDecimal coins;
+    private BigDecimal coins;
+
+    /** 角色 */
+    private Set<GrantedAuthority> roles;
 
     /** 创建时间 */
-    LocalDateTime createTime;
+    private LocalDateTime createTime;
 }

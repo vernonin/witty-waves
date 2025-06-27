@@ -16,9 +16,13 @@ public interface UserMapper {
 
     User queryById(@Param("id") Integer id);
 
+    User queryByUsername(@Param("username") String username);
+
     Page<User> queryList(UserDto userDto);
 
     void remove(@Param("id") Integer id);
 
     void removes(@Param("ids") List<Integer> ids);
+
+    User checkUsernameUnique(User user);
 }

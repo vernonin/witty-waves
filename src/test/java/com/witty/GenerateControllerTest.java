@@ -1,9 +1,9 @@
 package com.witty;
 
 import com.witty.entity.User;
-import com.witty.utils.TokenUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -23,12 +23,10 @@ public class GenerateControllerTest {
         user.setAvatar("https://xxxx.fsd.png");
         user.setCreateTime(LocalDateTime.now());
 
-        String token = TokenUtils.getToken(user);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String token = bCryptPasswordEncoder.encode(user.getPassword());
         System.out.println(token);
 
-
-        Map<String, String> stringStringMap = TokenUtils.parseToken(token);
-        stringStringMap.forEach((k, v) -> System.out.println(k + ": " + v));
     }
 
 }

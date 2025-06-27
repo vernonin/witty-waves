@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * 全局异常捕捉
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -15,14 +18,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * 处理自定义异常
      */
     @ExceptionHandler(value = BusinessException.class)
-    public ResponseEntity<HttpResponses<Object>> handleException(BusinessException ex, WebRequest request){
+    public ResponseEntity handleException(BusinessException ex, WebRequest request){
         System.out.println("自定义报错：" + ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(HttpResponses.error(ex.getMessage()));
     }
 
     @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<HttpResponses<Object>> handleAllExceptions(Exception ex, WebRequest request){
-        System.out.println("报错了：：：" + ex.getCause().getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(HttpResponses.error(ex.getCause().getMessage()));
+    public ResponseEntity handleAllExceptions(Exception ex, WebRequest request){
+        String message = ex.getMessage();
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(HttpResponses.error(message));
     }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 public interface UserService {
     void create(User user);
 
+    void register(User user);
+
     void update(User user);
 
     User queryById(Integer id);
@@ -18,4 +20,6 @@ public interface UserService {
     void remove(Integer id);
 
     void removes(List<Integer> ids);
+
+    boolean checkUsernameUnique(User user);
 }

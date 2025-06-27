@@ -36,7 +36,7 @@ public class GenerateController {
     @ApiOperation("生成声音")
     @PostMapping("/sound")
     public HttpResponses<Generate> getSound(@RequestBody SoundDto soundDto) {
-        Generate generate =  generateService.create(soundDto);
+        Generate generate = generateService.create(soundDto);
 
         return HttpResponses.ok(generate);
     };
